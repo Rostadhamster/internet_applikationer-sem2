@@ -23,11 +23,11 @@
             <button type="submit" >Logga ut</button>
             </form>
             
-             <form action="login.php" method="POST">
+        <form action="login.php" method="POST">
             <input type="text" name="uid" placeholder="Användarnamn">
             <input type="password" name="pwd" placeholder="Lösenord">
             <button type="submit" >Logga in</button>
-            </form>
+        </form>
         </ul>
         
     <?php

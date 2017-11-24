@@ -1,8 +1,7 @@
 <?php
     session_start();
     date_default_timezone_set('Europe/Stockholm');
-    include'dbh.inc.php.';
-    include 'comments.inc.php';
+    include'dbh.php';
 ?>
 
 <!DOCTYPE html>
@@ -79,18 +78,46 @@
             <h2>Kommentarer</h2>
             <?php
         if(isset($_SESSION['id'])){
-           echo "<form method='POST' action='".setComments2($conn)."'>
+           echo "<form method='POST' action='setComments.php'>
                 <input type='hidden' name='uid' value='".$_SESSION['id']."'>
                 <input type='hidden' name='date' value='".date('Y-m-d H:i:s')."'>
                 <textarea name='message'></textarea><br>
-                <button type='submit' name='commentSubmit'>Comment</button>
+                <button type='submit' name='commentSubmit2'>Kommentera</button>
             </form>";
             }
             else{
                 echo"Logga in för att kommentera!";
             }
             
-            getComments2($conn);
+//------------ Get comments ------------//            
+    $sql = "SELECT * FROM pancakescomments";
+    $result = mysqli_query($conn, $sql);    
+    
+    while($row = $result->fetch_assoc()){
+    $id = $row['uid'];   
+    $sql2  = "SELECT * FROM user WHERE id='$id'";
+    $result2 =  mysqli_query($conn, $sql2);
+        if($row2 = $result2->fetch_assoc()){
+           echo"<div class='comment-box'><p>"; 
+            echo $row2['uid']."<br>";
+            echo $row['date']."<br>";
+            echo nl2br($row['message']);
+        echo "</p>";
+        
+            if(isset($_SESSION['id'])){
+                if($_SESSION['id'] == $row2['id']){
+                    echo "<form class='delete-form' method='POST' action='deleteComments.php'>
+                    <input type='hidden' name='cid' value='".$row['cid']."'>
+                    <button type='submit' name='commentDelete2'> Radera </button>
+                    </form>";
+                }
+            }
+
+       echo" </div>";   
+            
+        }
+        
+    }
         ?>
         </div>
 

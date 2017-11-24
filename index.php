@@ -31,7 +31,7 @@
             
         </ul>
         
-        <?php
+    <?php
    echo"<div class='welcome'>";
         if (isset($_SESSION['id'])){
             echo "Du är inloggad! ";
